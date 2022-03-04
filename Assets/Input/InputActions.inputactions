@@ -1,0 +1,22 @@
+{
+    "name": "InputActions",
+    "maps": [],
+    "controlSchemes": [
+        {
+            "name": "XR Controllers",
+            "bindingGroup": "XR Controllers",
+            "devices": [
+                {
+                    "devicePath": "<XRController>{LeftHand}",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<XRController>{RightHand}",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
