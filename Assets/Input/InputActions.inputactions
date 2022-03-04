@@ -1,6 +1,46 @@
 {
     "name": "InputActions",
-    "maps": [],
+    "maps": [
+        {
+            "name": "XRControls",
+            "id": "fc7bfd4d-297a-4826-969a-8665924fef2d",
+            "actions": [
+                {
+                    "name": "ReadValue",
+                    "type": "Button",
+                    "id": "e916c05e-f200-4eef-b10f-aff6fa835639",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d793918c-3da1-4f5b-83dd-08f98193918b",
+                    "path": "<XRController>{LeftHand}/isTracked",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR Controllers",
+                    "action": "ReadValue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8e0a6d24-58e4-4559-b4f7-1d0fbda497a5",
+                    "path": "<XRController>{RightHand}/isTracked",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR Controllers",
+                    "action": "ReadValue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
     "controlSchemes": [
         {
             "name": "XR Controllers",

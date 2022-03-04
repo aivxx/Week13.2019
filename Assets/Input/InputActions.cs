@@ -22,7 +22,47 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     {
         asset = InputActionAsset.FromJson(@"{
     ""name"": ""InputActions"",
-    ""maps"": [],
+    ""maps"": [
+        {
+            ""name"": ""XRControls"",
+            ""id"": ""fc7bfd4d-297a-4826-969a-8665924fef2d"",
+            ""actions"": [
+                {
+                    ""name"": ""ReadValue"",
+                    ""type"": ""Button"",
+                    ""id"": ""e916c05e-f200-4eef-b10f-aff6fa835639"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""d793918c-3da1-4f5b-83dd-08f98193918b"",
+                    ""path"": ""<XRController>{LeftHand}/isTracked"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XR Controllers"",
+                    ""action"": ""ReadValue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8e0a6d24-58e4-4559-b4f7-1d0fbda497a5"",
+                    ""path"": ""<XRController>{RightHand}/isTracked"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XR Controllers"",
+                    ""action"": ""ReadValue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        }
+    ],
     ""controlSchemes"": [
         {
             ""name"": ""XR Controllers"",
@@ -42,6 +82,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         }
     ]
 }");
+        // XRControls
+        m_XRControls = asset.FindActionMap("XRControls", throwIfNotFound: true);
+        m_XRControls_ReadValue = m_XRControls.FindAction("ReadValue", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -97,6 +140,39 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     {
         return asset.FindBinding(bindingMask, out action);
     }
+
+    // XRControls
+    private readonly InputActionMap m_XRControls;
+    private IXRControlsActions m_XRControlsActionsCallbackInterface;
+    private readonly InputAction m_XRControls_ReadValue;
+    public struct XRControlsActions
+    {
+        private @InputActions m_Wrapper;
+        public XRControlsActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ReadValue => m_Wrapper.m_XRControls_ReadValue;
+        public InputActionMap Get() { return m_Wrapper.m_XRControls; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(XRControlsActions set) { return set.Get(); }
+        public void SetCallbacks(IXRControlsActions instance)
+        {
+            if (m_Wrapper.m_XRControlsActionsCallbackInterface != null)
+            {
+                @ReadValue.started -= m_Wrapper.m_XRControlsActionsCallbackInterface.OnReadValue;
+                @ReadValue.performed -= m_Wrapper.m_XRControlsActionsCallbackInterface.OnReadValue;
+                @ReadValue.canceled -= m_Wrapper.m_XRControlsActionsCallbackInterface.OnReadValue;
+            }
+            m_Wrapper.m_XRControlsActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @ReadValue.started += instance.OnReadValue;
+                @ReadValue.performed += instance.OnReadValue;
+                @ReadValue.canceled += instance.OnReadValue;
+            }
+        }
+    }
+    public XRControlsActions @XRControls => new XRControlsActions(this);
     private int m_XRControllersSchemeIndex = -1;
     public InputControlScheme XRControllersScheme
     {
@@ -105,5 +181,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
             if (m_XRControllersSchemeIndex == -1) m_XRControllersSchemeIndex = asset.FindControlSchemeIndex("XR Controllers");
             return asset.controlSchemes[m_XRControllersSchemeIndex];
         }
+    }
+    public interface IXRControlsActions
+    {
+        void OnReadValue(InputAction.CallbackContext context);
     }
 }

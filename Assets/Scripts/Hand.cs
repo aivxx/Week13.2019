@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public enum HandType
@@ -35,14 +36,14 @@ public class Hand : MonoBehaviour
         }
     }
 
-    [Obsolete]
+
     private void OnEnable()
     {
         interactor.onSelectEntered.AddListener(OnGrab);
         interactor.onSelectExited.AddListener(OnRelease);
     }
 
-    [Obsolete]
+  
     private void OnDisable()
     {
         interactor.onSelectEntered.RemoveListener(OnGrab);
@@ -77,7 +78,7 @@ public class Hand : MonoBehaviour
 
     public void Show()
     {
-        foreach (Renderer renderer in m_currentRenderers)
+        foreach (MeshRenderer renderer in m_currentRenderers)
         {
             renderer.enabled = true;
             
@@ -89,8 +90,8 @@ public class Hand : MonoBehaviour
     public void Hide()
     {
         m_currentRenderers.Clear();
-        Renderer[] renderers = GetComponentsInChildren<Renderer>();
-        foreach(Renderer renderer in renderers)
+        Renderer[] renderers = GetComponentsInChildren<MeshRenderer>();
+        foreach(MeshRenderer renderer in renderers)
         {
             renderer.enabled = false;
             m_currentRenderers.Add(renderer);

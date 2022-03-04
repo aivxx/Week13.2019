@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.XR.Interaction.Toolkit;
-using UnityEngine.InputSystem;
 
 [Serializable]
 public class DragEvent: UnityEvent<float> { }
